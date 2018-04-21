@@ -6,14 +6,17 @@
 ## cache a matrix and it's calculated inverse
 
 makeCacheMatrix <- function(x = matrix()) {
-  s <- NULL
+  m <- x
+  I <- NULL
+  
   set <- function(y) {
-    x <<- y
-    m <<- NULL
+      m <<- y
+      I <<- NULL
   }
-  get <- function() x
-  setsolve <- function(solved) s <<- solved
-  getsolve <- function() s
+  get <- function() m
+  setsolve <- function(solved) I <<- solved
+  getsolve <- function() I
+  
   list(set = set, get = get,
        setsolve = setsolve,
        getsolve = getsolve)
@@ -24,14 +27,14 @@ makeCacheMatrix <- function(x = matrix()) {
 ## calculates the inverse of  matrix and
 ## caches the result
 
-cacheSolve <- function(x, ...) {
-  s <- x$getsolve()
-  if(!is.null(s)) {
-    message("getting cached data")
-    return(s)
+cacheSolve <- function(mo, ...) {
+  solution <- mo$getsolve()
+  if(!is.null(solution)) {
+      message("getting cached data")
+      return(solution)
+  }else{
+      solution <- solve( mo$get(), ...)
+      mo$setsolve(solution)
+      return(solution)
   }
-  data <- x$get()
-  s <- solve(data, ...)
-  x$setsolve(s)
-  s
 }
