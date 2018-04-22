@@ -18,10 +18,11 @@ source("cachematrix.R")
 
 m_size = 2:10
 m_size = lapply(m_size, function(n) n*n)
+set.seed(20)
 
 for(i in m_size){
     l = sqrt(i)
-    x <- matrix(rnorm(i, 100, 3), nrow = l, ncol = l)
+    x <- matrix(rpois(i, 100), nrow = l, ncol = l)
     m <- makeCacheMatrix(x)
     invisible(cacheSolve(m))
 
